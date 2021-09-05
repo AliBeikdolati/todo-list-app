@@ -57,6 +57,7 @@
     import {LogInIcon} from 'vue-feather-icons';
     import axios from 'axios';
     import {mapState, mapActions} from 'vuex'
+    import { gsap } from 'gsap'
 
     export default {
         name: 'Login',
@@ -247,6 +248,14 @@
                 'step',
                 'loading'
             ])
+        },
+
+        mounted() {
+            gsap.from('.form-div', {
+                duration: 1,
+                y: 100,
+                opacity: 0,
+            })
         }
     }
 </script>

@@ -1,7 +1,7 @@
 <template>
-    <div>
+    <div class="navbar">
         <vs-navbar v-model="activeItem" class="nabarx">
-            <div slot="title">
+            <div slot="title" class="navbar-brand">
                 <vs-navbar-title>
                     لیست کار ها
                 </vs-navbar-title>
@@ -30,6 +30,7 @@
 
 <script>
     import { mapState, mapActions } from 'vuex'
+    import { gsap } from 'gsap';
 
     export default {
         name: "Navbar",
@@ -55,6 +56,17 @@
             ...mapState([
                 'auth'
             ])
+        },
+        mounted() {
+            gsap.from('.navbar', {
+                duration: 1,
+                y: -100
+            })
+            gsap.from('.navbar-menu', {
+                duration: 1,
+                delay: 1,
+                x: 150
+            })
         }
     }
 </script>

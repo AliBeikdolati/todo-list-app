@@ -1,12 +1,12 @@
 <template>
     <div class="home">
         <vs-row vs-w="11" vs-justify="center">
-            <vs-col vs-type="flex" class="page-title">
-                <h2>لیست کارها</h2>
-                <AddTodo/>
+            <vs-col vs-type="flex" class="page-title-header">
+                <h2 class="page-title">لیست کارها</h2>
+                <AddTodo class="add-todo-btn"/>
             </vs-col>
             <vs-col vs-type="flex" vs-justify="center" vs-lg="4" vs-sm="4" vs-xs="12">
-                <div class="todo-list">
+                <div class="todo-list todo">
                     <div class="list-header">
                         <h3 class="list-title">
                             کارهای شروع نشده
@@ -26,7 +26,7 @@
                 </div>
             </vs-col>
             <vs-col vs-type="flex" vs-justify="center" vs-lg="4" vs-sm="4" vs-xs="12">
-                <div class="todo-list">
+                <div class="todo-list inProgress">
                     <div class="list-header">
                         <h3 class="list-title">
                             کارهای درحال انجام
@@ -45,7 +45,7 @@
                 </div>
             </vs-col>
             <vs-col vs-type="flex" vs-justify="center" vs-lg="4" vs-sm="4" vs-xs="12">
-                <div class="todo-list">
+                <div class="todo-list done">
                     <div class="list-header">
                         <h3 class="list-title">
                             کارهای انجام شده
@@ -72,6 +72,7 @@
     // @ is an alias to /src
     // import HelloWorld from '@/components/HelloWorld.vue'
     import {mapState, mapActions, mapGetters} from 'vuex';
+    import { gsap } from 'gsap'
 
     // import { PlusIcon } from 'vue-feather-icons'
 
@@ -114,6 +115,37 @@
             }
             this.loading(false);
 
+            gsap.from('.todo', {
+                duration: 1,
+                y: 100,
+                opacity: 0
+            })
+
+            gsap.from('.inProgress', {
+                duration: 1,
+                delay: .5,
+                y: 100,
+                opacity: 0,
+            })
+
+            gsap.from('.done', {
+                duration: 1,
+                delay: 1,
+                y: 100,
+                opacity: 0
+            })
+
+            gsap.from('.page-title', {
+                duration: 2,
+                x: 100,
+                opacity: 0,
+            })
+
+            gsap.from('.add-todo-btn', {
+                duration: 2,
+                x: -100,
+                opacity: 0
+            })
         },
         created() {
             let auth1 = JSON.parse(localStorage.getItem("auth"));
@@ -137,7 +169,7 @@
         justify-content: center;
     }
 
-    .page-title {
+    .page-title-header {
         display: flex;
         justify-content: space-between;
         padding: 15px;
