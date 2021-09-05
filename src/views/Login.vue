@@ -4,7 +4,7 @@
             <vs-col class="form-div" vs-type="flex" vs-justify="center" vs-align="center" vs-lg="4" vs-sm="6"
                     vs-xs="12">
                 <form class="login-form"
-                      @submit.prevent="step === 1 ? submitTellHandler(tell, changeLoginState, error, $vs.notify) : submitCodeHandler(tell, code, loginSuccess, codeError, $vs.notify, $router)">
+                      @submit.prevent="step === 1 ? submitTellHandler(tell, changeLoginState, error, $vs.notify, $vs.loading) : submitCodeHandler(tell, code, loginSuccess, codeError, $vs.notify, $router, $vs.loading)">
                     <div class="login-icon">
                         <log-in-icon size="4x" class="custom-class"></log-in-icon>
                         <h2>ورود</h2>
@@ -38,11 +38,11 @@
 
                     <div class="login-form-btns">
                         <vs-button class="login-submit" type="border" :disabled="error.hasEroror"
-                                   @click="submitTellHandler(tell, changeLoginState, error, $vs.notify)"
+                                   @click="submitTellHandler(tell, changeLoginState, error, $vs.notify, $vs.loading)"
                                    v-if="step === 1" color="success">تایید
                         </vs-button>
                         <vs-button class="login-submit" type="border" :disabled="codeError.hasEroror"
-                                   @click="submitCodeHandler(tell, code, loginSuccess, codeError, $vs.notify, $router)"
+                                   @click="submitCodeHandler(tell, code, loginSuccess, codeError, $vs.notify, $router, $vs.loading)"
                                    v-if="step === 2" color="success">تایید
                         </vs-button>
                     </div>
@@ -92,12 +92,15 @@
             ...mapActions([
                 'changeLoginState',
                 'loginSuccess',
+                'setLoading',
             ]),
 
-            submitTellHandler: (tell, changeLoginState, error, notify) => {
+            submitTellHandler: (tell, changeLoginState, error, notify, loading) => {
                 // let state = 1;
                 // console.log(tell);
-
+                loading({
+                    type: 'radius'
+                });
                 if (!error.hasEroror) {
                     axios.request({
                         method: 'post',
@@ -116,6 +119,7 @@
                                 // state = 2;
                                 changeLoginState(2);
                             }
+                            loading.close();
                         })
                         .catch((e) => {
                             if (e.response.status === 422) {
@@ -140,15 +144,19 @@
                                 })
                             }
                             console.log(e.response);
+                            loading.close();
                             // return step = 1;
                         })
                     // return state;
                 }
+                loading.close();
             },
 
-            submitCodeHandler: (tell, code, loginSuccess, error, notify, router) => {
+            submitCodeHandler: (tell, code, loginSuccess, error, notify, router, loading) => {
                 // console.log(tell);
-
+                loading({
+                    type: 'radius'
+                });
                 if (!error.hasEroror) {
                     axios.request({
                         method: 'post',
@@ -171,8 +179,10 @@
                                     title: 'ارسال کد',
                                     text: response.data.message,
                                     color: 'success'
-                                })
+                                });
+
                             }
+                            loading.close();
                         })
                         .catch((e) => {
                             if (e.response.status === 404) {
@@ -196,9 +206,10 @@
                                     dir: 'rtl'
                                 })
                             }
-                            console.log(e.response)
+                            // console.log(e.response);
                         })
                 }
+                loading.close();
             }
         },
 
@@ -233,7 +244,8 @@
         },
         computed: {
             ...mapState([
-                'step'
+                'step',
+                'loading'
             ])
         }
     }

@@ -29,13 +29,14 @@
         },
         computed: {
             ...mapState([
-                'todos'
+                'todos',
+                'loading'
             ])
         },
         beforeDestroy() {
             // localStorage.todos = this.todos;
             localStorage.setItem("todo", JSON.stringify(this.todos));
-        }
+        },
     }
 </script>
 

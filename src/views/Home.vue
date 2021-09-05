@@ -3,9 +3,9 @@
         <vs-row vs-w="11" vs-justify="center">
             <vs-col vs-type="flex" class="page-title">
                 <h2>لیست کارها</h2>
-                <AddTodo />
+                <AddTodo/>
             </vs-col>
-            <vs-col vs-type="flex" vs-justify="center" vs-lg="4" vs-sm="4" vs-xs="12" >
+            <vs-col vs-type="flex" vs-justify="center" vs-lg="4" vs-sm="4" vs-xs="12">
                 <div class="todo-list">
                     <div class="list-header">
                         <h3 class="list-title">
@@ -15,9 +15,9 @@
                             {{ getTodoList.length }}
                         </span>
                     </div>
-<!--                    {{ todos }}-->
+                    <!--                    {{ todos }}-->
                     <template v-for="(todo, key) in getTodoList">
-                        <TodoCard :key="key" :todo="todo" />
+                        <TodoCard :key="key" :todo="todo"/>
                     </template>
                     <template v-if="getTodoList.length === 0">
                         چیزی برای نمایش وجود ندارد.
@@ -37,7 +37,7 @@
                     </div>
                     <!--                    {{ todos }}-->
                     <template v-for="(todo, key) in getInProgressTodoList">
-                        <TodoCard :key="key" :todo="todo" />
+                        <TodoCard :key="key" :todo="todo"/>
                     </template>
                     <template v-if="getInProgressTodoList.length === 0">
                         چیزی برای نمایش وجود ندارد.
@@ -56,7 +56,7 @@
                     </div>
                     <!--                    {{ todos }}-->
                     <template v-for="(todo, key) in getDoneTodoList">
-                        <TodoCard :key="key" :todo="todo" />
+                        <TodoCard :key="key" :todo="todo"/>
                     </template>
                     <template v-if="getDoneTodoList.length === 0">
                         چیزی برای نمایش وجود ندارد.
@@ -71,7 +71,7 @@
 <script>
     // @ is an alias to /src
     // import HelloWorld from '@/components/HelloWorld.vue'
-    import { mapState, mapActions, mapGetters } from 'vuex';
+    import {mapState, mapActions, mapGetters} from 'vuex';
 
     // import { PlusIcon } from 'vue-feather-icons'
 
@@ -88,7 +88,9 @@
         },
         methods: {
             ...mapActions([
-                "addTodos"
+                "addTodos",
+                'loading',
+                'setAuth'
             ])
         },
         computed: {
@@ -106,18 +108,22 @@
             let storedNames = JSON.parse(localStorage.getItem("todo"));
             console.log(storedNames);
             if (storedNames.length && this.todos.length === 0) {
-                for (let i = 0; i< storedNames.length; i++) {
+                for (let i = 0; i < storedNames.length; i++) {
                     this.addTodos(storedNames[i]);
                 }
             }
+            this.loading(false);
+
         },
         created() {
-            let auth1 = JSON.parse(localStorage.getItem("user"));
+            let auth1 = JSON.parse(localStorage.getItem("auth"));
             // if( ! user || user.expired_at > Date.now() ) {
             //     this.$router.push('/login');
             // }
-            if (auth1 == null){
+            if (auth1 == null) {
                 localStorage.setItem("auth", JSON.stringify(this.auth));
+            } else {
+                this.setAuth(auth1);
             }
 
         }
@@ -130,6 +136,7 @@
         display: flex;
         justify-content: center;
     }
+
     .page-title {
         display: flex;
         justify-content: space-between;
@@ -137,14 +144,15 @@
 
 
     }
+
     .addtodo-btn__text {
-         display: flex !important;
+        display: flex !important;
         align-items: center;
 
         .custom-class {
             margin: 0 5px;
         }
-     }
+    }
 
     .todo-list {
         background-color: #f2f2f2;

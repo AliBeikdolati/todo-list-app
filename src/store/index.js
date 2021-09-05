@@ -20,7 +20,8 @@ export default new Vuex.Store({
             gender: 1
         },
         auth: false,
-        permissions: []
+        permissions: [],
+        loading: true,
     },
     mutations: {
         addedTodo: (state, payload) => {
@@ -56,6 +57,14 @@ export default new Vuex.Store({
             state.auth = true;
             localStorage.setItem("user", JSON.stringify(payload));
             localStorage.setItem("auth", JSON.stringify(state.auth));
+        },
+        setLoading: (state, payload) => {
+            state.loading = payload;
+
+        },
+
+        setAuthentication: (state, payload) => {
+            state.auth = payload;
         }
     },
     actions: {
@@ -73,6 +82,14 @@ export default new Vuex.Store({
 
         loginSuccess: ({ commit }, payload) => {
             commit('loginedSuccess', payload);
+        },
+
+        loading: ({ commit }, payload) => {
+            commit('setLoading', payload);
+        },
+
+        setAuth: ({ commit }, payload) => {
+            commit('setAuthentication', payload);
         }
     },
     getters: {
