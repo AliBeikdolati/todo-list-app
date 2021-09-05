@@ -93,7 +93,8 @@
         },
         computed: {
             ...mapState([
-                'todos'
+                'todos',
+                'auth'
             ]),
             ...mapGetters([
                 'getTodoList',
@@ -102,18 +103,23 @@
             ]),
         },
         mounted() {
-            var storedNames = JSON.parse(localStorage.getItem("todo"));
+            let storedNames = JSON.parse(localStorage.getItem("todo"));
             console.log(storedNames);
             if (storedNames.length && this.todos.length === 0) {
                 for (let i = 0; i< storedNames.length; i++) {
-                    // console.log(localStorage.todos[i]);
                     this.addTodos(storedNames[i]);
                 }
             }
         },
-        beforeDestroy() {
-            // localStorage.todos = this.todos;
-            // localStorage.setItem("todo", JSON.stringify(this.todos));
+        created() {
+            let auth1 = JSON.parse(localStorage.getItem("user"));
+            // if( ! user || user.expired_at > Date.now() ) {
+            //     this.$router.push('/login');
+            // }
+            if (auth1 == null){
+                localStorage.setItem("auth", JSON.stringify(this.auth));
+            }
+
         }
     }
 </script>

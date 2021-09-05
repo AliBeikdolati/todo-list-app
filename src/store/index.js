@@ -7,27 +7,20 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
     state: {
-        // todos: [
-        //     {
-        //         id: 0,
-        //         name: 'طراحی صفحه ورود',
-        //         description: 'طراحی صفحه ورود که هویت فرد را بررسی میکند و در صورت عضویت لیست کارها را نمایش می دهد.',
-        //         status: 0
-        //     },
-        //     {
-        //         id: 1,
-        //         name: 'پیاده سازی صفحه ورود',
-        //         description: 'طراحی صفحه ورود که هویت فرد را بررسی میکند و در صورت عضویت لیست کارها را نمایش می دهد.',
-        //         status: 0
-        //     },
-        //     {
-        //         id: 2,
-        //         name: 'بک اند صفحه ورود',
-        //         description: 'طراحی صفحه ورود که هویت فرد را بررسی میکند و در صورت عضویت لیست کارها را نمایش می دهد.',
-        //         status: 0
-        //     },
-        // ]
         todos: [],
+        step: 1,
+        token: '',
+        expired_at: 0,
+        user: {
+            id: 0,
+            name: "",
+            family: "",
+            phone_number: "",
+            avatar: "",
+            gender: 1
+        },
+        auth: false,
+        permissions: []
     },
     mutations: {
         addedTodo: (state, payload) => {
@@ -49,6 +42,20 @@ export default new Vuex.Store({
                 }
             });
             localStorage.setItem("todo", JSON.stringify(state.todos));
+        },
+
+        changedLoginState: (state, payload) => {
+            state.step = payload;
+        },
+
+        loginedSuccess: (state, payload) => {
+            state.token = payload.token;
+            state.expired_at = payload.expired_at;
+            state.user = payload.user;
+            state.permissions = payload.permissions;
+            state.auth = true;
+            localStorage.setItem("user", JSON.stringify(payload));
+            localStorage.setItem("auth", JSON.stringify(state.auth));
         }
     },
     actions: {
@@ -58,6 +65,14 @@ export default new Vuex.Store({
 
         editTodo: ({commit}, payload) => {
             commit('editedTodo', payload);
+        },
+
+        changeLoginState: ({ commit }, payload) => {
+            commit('changedLoginState', payload);
+        },
+
+        loginSuccess: ({ commit }, payload) => {
+            commit('loginedSuccess', payload);
         }
     },
     getters: {

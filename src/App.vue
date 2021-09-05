@@ -14,13 +14,13 @@
     import Navbar from "./components/Navbar";
     import { mapState } from 'vuex';
 
-    window.onbeforeunload = function()
-    {
-        if (this.todos.length) {
-            localStorage.setItem("todo", JSON.stringify(this.todos));
-        }
-
-    };
+    // window.onbeforeunload = function()
+    // {
+    //     if (this.todos.length) {
+    //         localStorage.setItem("todo", JSON.stringify(this.todos));
+    //     }
+    //
+    // };
 
     export default {
         name: 'App',

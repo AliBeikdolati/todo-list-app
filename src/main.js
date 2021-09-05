@@ -10,6 +10,9 @@ import 'vuesax/dist/vuesax.css'
 // import fonts
 import './assets/font.css';
 
+// import mdi from 'material-design-icons'
+// Vue.use(mdi);
+
 Vue.config.productionTip = false;
 Vue.use(Vuesax);
 
