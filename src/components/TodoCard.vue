@@ -22,7 +22,7 @@
             </button>
 
 <!--        </vs-button>-->
-        <vs-popup dir="rtl" class="holamundo" :button-close-hidden="true" title="افزودن کار جدید"
+        <vs-popup dir="rtl" class="holamundo" :button-close-hidden="true" title="ویرایش کار"
                   :active.sync="showModal">
             <form @submit.prevent="() => showModal = editTodoWork(editTodo, payload)" >
                 <vs-input class="todo-input" label-placeholder="عنوان" v-model="payload.name"/>
@@ -45,7 +45,7 @@
                     </vs-button>
                     <vs-button @click="() => showModal = editTodoWork(editTodo, payload)" color="success" type="border">
                     <span class="addtodo-btn__text">
-                        افزودن کار
+                        ویرایش
                     </span>
                     </vs-button>
                 </div>

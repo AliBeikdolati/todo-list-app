@@ -25,16 +25,10 @@
                             </li>
                         </ul>
                     </template>
-                    <vs-input class="login-input" label-placeholder="کد یکبار مصرف" type="number"
+                    <vs-input class="login-input code-input" label-placeholder="کد یکبار مصرف" type="number"
                               :danger="codeError.hasEroror"
                               :danger-text="codeError.text" v-model="code" v-if="step === 2"/>
 
-                    <!--                    &lt;!&ndash; this tag show helper for fix error &ndash;&gt;-->
-                    <!--                    <template v-if="error.hasEroror === true">-->
-                    <!--                        <ul class="error-helper-list">-->
-                    <!--                            <li class="error-helper__text" :key="key" v-for="(item, key) in error.helper">{{ item }}</li>-->
-                    <!--                        </ul>-->
-                    <!--                    </template>-->
 
                     <div class="login-form-btns">
                         <vs-button class="login-submit" type="border" :disabled="error.hasEroror"
@@ -254,6 +248,12 @@
             gsap.from('.form-div', {
                 duration: 1,
                 y: 100,
+                opacity: 0,
+            });
+
+            gsap.from('.code-input', {
+                duration: 1,
+                y: -100,
                 opacity: 0,
             })
         }
